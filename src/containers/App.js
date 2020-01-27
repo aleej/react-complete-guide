@@ -13,12 +13,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     console.log('[App.js] constructor');
-  }
+  };
 
   static getDerivedStateFromProps(props, state) {
     console.log('[App.js] GetDerivedStateFromProps', props);
     return state;
-  }
+  };
 
   // componentWillMount(){
   //   console.log('[App.js] Component will mount');
@@ -26,16 +26,16 @@ class App extends Component {
 
   componentDidMount() {
     console.log('[App.js] component did mount');
-  }
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     console.log('[App.js] shouldComponentUpdate');
     return true;
-  }
+  };
 
   componentDidUpdate() {
     console.log('[App.js] componentDidUpdate');
-  }
+  };
 
   state = {
     persons: [
@@ -45,8 +45,9 @@ class App extends Component {
     ],
     showPersons: false,
     showCockpit: true,
-    changeCounter: 0
-  }
+    changeCounter: 0,
+    authenticated: false
+  };
 
   nameChangedHandler = (event, id) => {
     const persons = [...this.state.persons];
@@ -59,7 +60,7 @@ class App extends Component {
           changeCounter: prevState.changeCounter + 1
         }
       });
-}
+};
 
 togglePersonsHandler = () => {
   const doesShow = this.state.showPersons;
@@ -70,7 +71,11 @@ deletePersonHandler = (personIndex) => {
   const persons = [...this.state.persons];
   persons.splice(personIndex, 1);
   this.setState({ persons: persons });
-}
+};
+
+loginHandler = () => {
+  this.setState({authenticated: true});
+};
 
 render() {
   console.log('[App.js] render');
@@ -81,7 +86,9 @@ render() {
       <Persons
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
-        changed={this.nameChangedHandler} />
+        changed={this.nameChangedHandler} 
+        isAuthenticated={this.state.authenticated}
+        />
     );
   }
 
@@ -97,6 +104,7 @@ render() {
           personsLength={this.state.persons.length}
           showPersons={this.state.showPersons}
           clicked={this.togglePersonsHandler}
+          login={this.loginHandler}
         /> : null}
       {persons}
     </Aux>
